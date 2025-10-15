@@ -128,6 +128,18 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Keeper.cpp" />
+    <ClCompile Include="Boat.cpp" />
+    <ClCompile Include="Sailboat.cpp" />
+    <ClCompile Include="Base.cpp" />
+    <ClCompile Include="Submarine.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Boat.h" />
+    <ClInclude Include="Base.h" />
+    <ClInclude Include="Submarine.h" />
+    <ClInclude Include="Sailboat.h" />
+    <ClInclude Include="Keeper.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
