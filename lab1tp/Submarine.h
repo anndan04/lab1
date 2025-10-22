@@ -15,17 +15,17 @@ private:
     char weapon[100];
 
 public:
-    // --- Конструкторы и деструктор ---
-    Submarine();  // без параметров
-    Submarine(double l, double w, int c, double ut, double mus, const char* wp); // с параметрами
-    Submarine(const Submarine& other); // копирования
-    ~Submarine(); // деструктор
+  
+    Submarine();  
+    Submarine(double l, double w, int c, double ut, double mus, const char* wp); 
+    Submarine(const Submarine& other); 
+    ~Submarine(); 
 
-    // --- Операторы ---
+   
     Submarine& operator=(const Submarine& other);
     bool operator==(const Submarine& other) const;
 
-    // --- Методы доступа (get/set) ---
+    
     double getLength() const;
     double getWidth() const;
     int getCrew() const;
@@ -40,12 +40,11 @@ public:
     void setMaxUnderwaterSpeed(double s);
     void setWeapon(const char* w);
 
-    // --- Методы от Base ---
     void Input() override;
     void Show() const override;
     void Edit() override;
-    void Save(std::ofstream& out) const override;
-    void Load(std::ifstream& in) override;
+    //void Save(std::ofstream& out) const override;
+    //void Load(std::ifstream& in) override;
     Base* Clone() const override;
 };
 

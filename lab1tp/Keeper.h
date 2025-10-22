@@ -3,6 +3,7 @@
 #define KEEPER_H
 
 #include "Base.h"
+#include <string>
 
 class Keeper {
 private:
@@ -12,15 +13,16 @@ private:
 public:
     Keeper();
     ~Keeper();
+    Keeper(const Keeper& other);              
+    Keeper& operator=(const Keeper& other);   
 
     void Add(Base* obj);
     void Remove(int index);
     void Edit(int index);
     void ShowAll() const;
-    void SaveToFile(const char* filename) const;
-    void LoadFromFile(const char* filename);
     int GetCount() const { return count; }
 };
 
 #endif
+
 
