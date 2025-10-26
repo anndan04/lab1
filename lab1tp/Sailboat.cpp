@@ -93,13 +93,60 @@ void Sailboat::setCrew(int c) { crew = c; }
 
 
 void Sailboat::Input() {
-    cout << "Введите тип парусника: "; cin.ignore(); cin.getline(type, sizeof(type));
-    cout << "Введите название: "; cin.getline(name, sizeof(name));
-    cout << "Мирный (0) или военный (1): "; cin >> isMilitary;
-    cout << "Длина корпуса: "; cin >> hullLength;
-    cout << "Скорость: "; cin >> speed;
-    cout << "Экипаж: "; cin >> crew;
+    
+    while (true) {
+        cout << "Введите тип парусника: ";
+        cin.ignore(numeric_limits<streamsize>::max(), '\n'); 
+        cin.getline(type, sizeof(type));
+        if (strlen(type) > 0) break;
+        cout << "Ошибка: тип не может быть пустым.\n";
+    }
+
+    
+    while (true) {
+        cout << "Введите название: ";
+        cin.getline(name, sizeof(name));
+        if (strlen(name) > 0) break;
+        cout << "Ошибка: название не может быть пустым.\n";
+    }
+
+    
+    while (true) {
+        cout << "Мирный (0) или военный (1): ";
+        if (cin >> isMilitary && (isMilitary == 0 || isMilitary == 1)) break;
+        cout << "Ошибка: введите 0 (мирный) или 1 (военный).\n";
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    }
+
+    
+    while (true) {
+        cout << "Длина корпуса: ";
+        if (cin >> hullLength && hullLength > 0) break;
+        cout << "Ошибка: длина должна быть числом\n";
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    }
+
+   
+    while (true) {
+        cout << "Скорость: ";
+        if (cin >> speed && speed > 0) break;
+        cout << "Ошибка: скорость должна быть числом\n";
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    }
+
+   
+    while (true) {
+        cout << "Экипаж: ";
+        if (cin >> crew && crew > 0) break;
+        cout << "Ошибка: экипаж должен быть целым числом\n";
+        cin.clear();
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    }
 }
+
 
 void Sailboat::Show() const {
     cout << "\n=== Парусник ===\n";
@@ -122,4 +169,26 @@ Base* Sailboat::Clone() const {
     cout << "[Sailboat] Вызван метод Clone().\n";
     return new Sailboat(*this);
 }
+void Sailboat::Save(ofstream& out) const {
+    out << "Sailboat\n"; 
+    out << type << '\n'
+        << name << '\n'
+        << isMilitary << '\n'
+        << hullLength << '\n'
+        << speed << '\n'
+        << crew << '\n';
+}
+
+void Sailboat::Load(ifstream& in) {
+    in.ignore(); 
+
+    in.getline(type, sizeof(type));
+    in.getline(name, sizeof(name));
+    in >> isMilitary;
+    in >> hullLength;
+    in >> speed;
+    in >> crew;
+    in.ignore(); 
+}
+
 

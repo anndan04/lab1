@@ -39,8 +39,8 @@ public:
     void Input() override;
     void Show() const override;
     void Edit() override;
-   // void Save(std::ofstream& out) const override;
-   // void Load(std::ifstream& in) override;
+    void Save(std::ofstream& out) const override;
+    void Load(std::ifstream& in) override;
     Base* Clone() const override;
 };
 

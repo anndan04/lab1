@@ -20,6 +20,8 @@ public:
     void Remove(int index);
     void Edit(int index);
     void ShowAll() const;
+    void SaveToFile(const std::string& filename) const;
+    void LoadFromFile(const std::string& filename);
     int GetCount() const { return count; }
 };
 

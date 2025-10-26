@@ -3,11 +3,12 @@
 #include "Submarine.h"
 #include "Sailboat.h"
 #include "Boat.h"
+#include <locale>
 using namespace std;
 
 void menu() {
     Keeper keeper;
-   // const char* filename = "ships.txt";
+   const char* filename = "ships.txt";
 
     while (true) {
         cout 
@@ -15,8 +16,8 @@ void menu() {
             << "2. Удалить объект\n"
             << "3. Показать все объекты\n"
             << "4. Изменить объект\n"
-           // << "5. Сохранить в файл\n"
-           // << "6. Загрузить из файла\n"
+            << "5. Сохранить в файл\n"
+            << "6. Загрузить из файла\n"
             << "0. Выход\n"
             << "Выбор: ";
 
@@ -31,7 +32,7 @@ void menu() {
             switch (t) {
             case 1: obj = new Submarine(); break;
             case 2: obj = new Sailboat(); break;
-            //case 3: obj = new Boat(); break;
+            case 3: obj = new Boat(); break;
             default: cout << "Ошибка\n"; continue;
             }
             obj->Edit();
@@ -51,6 +52,15 @@ void menu() {
             keeper.Edit(i);
             break;
         }
+              case 5: {
+            keeper.SaveToFile(filename);
+            break;
+        }
+
+        case 6: {
+            keeper.LoadFromFile(filename);
+            break;
+        }
         default:
             cout << "Нет такого\n";
         }
@@ -58,7 +68,7 @@ void menu() {
 }
 
 int main() {
-    setlocale(LC_ALL, "ru");
+    setlocale(LC_ALL, "Russian");  
     menu();
     return 0;
 }

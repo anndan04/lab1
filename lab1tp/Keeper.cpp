@@ -1,7 +1,3 @@
-//в этой версии добавлены оператор присвваивания, конструктор копирования, 
-// вывод при вызове конструкторов, изменения в load
-//save и load bool
-
 #include "Keeper.h"
 #include "Submarine.h"
 #include "Boat.h"
@@ -43,7 +39,7 @@ Keeper::Keeper(const Keeper& other) : items(nullptr), count(0) {
         count = other.count;
         items = new Base * [count];
         for (int i = 0; i < count; ++i)
-            items[i] = other.items[i]->Clone(); // глубокое копирование
+            items[i] = other.items[i]->Clone(); 
     }
 }
 void Keeper::Add(Base* obj) {
@@ -100,6 +96,57 @@ void Keeper::ShowAll() const {
         items[i]->Show();
     }
 }
+void Keeper::SaveToFile(const string& filename) const {
+    ofstream out(filename);
+    if (!out) {
+        cout << "Ошибка открытия файла для записи\n";
+        return;
+    }
+    out << count << '\n'; 
+    for (int i = 0; i < count; ++i) {
+        items[i]->Save(out);
+    }
 
+    cout << "Данные успешно сохранены в " << filename << endl;
+    out.close();
+}
 
+void Keeper::LoadFromFile(const string& filename) {
+    ifstream in(filename);
+    if (!in) {
+        cout << "Ошибка открытия файла для чтения\n";
+        return;
+    }
 
+   
+    for (int i = 0; i < count; ++i)
+        delete items[i];
+    delete[] items;
+    items = nullptr;
+    count = 0;
+
+    int newCount;
+    in >> newCount;
+    in.ignore();
+
+    for (int i = 0; i < newCount; ++i) {
+        string type;
+        getline(in, type);
+
+        Base* obj = nullptr;
+        if (type == "Sailboat")
+            obj = new Sailboat();
+        else if (type == "Submarine")
+            obj = new Submarine();
+        else if (type == "Boat")
+            obj = new Boat();
+
+        if (obj) {
+            obj->Load(in);
+            Add(obj);
+        }
+    }
+
+    cout << "Данные успешно загружены из " << filename << endl;
+    in.close();
+}

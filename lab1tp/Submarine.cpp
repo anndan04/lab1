@@ -41,7 +41,7 @@ Submarine::Submarine(const Submarine& other)
 }
 
 Submarine::~Submarine() {
-    cout << "[Submarine] Вызван деструктор для объекта с вооружением: " << weapon << "\n";
+    cout << "[Submarine] Вызван деструктор " << weapon << "\n";
 }
 
 
@@ -96,14 +96,65 @@ void Submarine::setWeapon(const char* w) {
 
 
 void Submarine::Input() {
-    cout << "Введите длину (м): "; cin >> length;
-    cout << "Введите ширину (м): "; cin >> width;
-    cout << "Введите численность экипажа: "; cin >> crew;
-    cout << "Введите время под водой (часы): "; cin >> underwater_time;
-    cout << "Введите максимальную подводную скорость (узлы): "; cin >> max_underwater_speed;
+    while (true) {
+        cout << "Введите длину (м): ";
+        if (cin >> length && length > 0) break;
+        else {
+            cout << "Ошибка: длина должна быть числом\n";
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        }
+    }
+
+    while (true) {
+        cout << "Введите ширину (м): ";
+        if (cin >> width && width > 0) break;
+        else {
+            cout << "Ошибка: ширина должна быть числом\n";
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        }
+    }
+
+    while (true) {
+        cout << "Введите численность экипажа: ";
+        if (cin >> crew && crew > 0) break;
+        else {
+            cout << "Ошибка: экипаж должен быть целым числом\n";
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        }
+    }
+
+    while (true) {
+        cout << "Введите время под водой (часы): ";
+        if (cin >> underwater_time && underwater_time > 0) break;
+        else {
+            cout << "Ошибка: время под водой должно быть числом\n";
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        }
+    }
+
+    while (true) {
+        cout << "Введите максимальную подводную скорость (узлы): ";
+        if (cin >> max_underwater_speed && max_underwater_speed > 0) break;
+        else {
+            cout << "Ошибка: скорость должна быть числом\n";
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        }
+    }
+
+    cin.ignore(numeric_limits<streamsize>::max(), '\n'); 
     cout << "Введите вооружение: ";
-    cin.ignore();
     cin.getline(weapon, sizeof(weapon));
+
+   
+    while (strlen(weapon) == 0) {
+        cout << "Ошибка: вооружение не может быть пустым ";
+        cin.getline(weapon, sizeof(weapon));
+    }
 }
 
 void Submarine::Show() const {
@@ -125,3 +176,23 @@ Base* Submarine::Clone() const {
     cout << "[Submarine] Вызван метод Clone().\n";
     return new Submarine(*this);
 }
+void Submarine::Save(ofstream& out) const {
+    out << "Submarine\n"; 
+    out << length << '\n'
+        << width << '\n'
+        << crew << '\n'
+        << underwater_time << '\n'
+        << max_underwater_speed << '\n'
+        << weapon << '\n';
+}
+
+void Submarine::Load(ifstream& in) {
+    in >> length;
+    in >> width;
+    in >> crew;
+    in >> underwater_time;
+    in >> max_underwater_speed;
+    in.ignore(); 
+    in.getline(weapon, sizeof(weapon));
+}
+
