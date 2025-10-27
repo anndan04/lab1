@@ -42,7 +42,8 @@ Keeper::Keeper(const Keeper& other) : items(nullptr), count(0) {
             items[i] = other.items[i]->Clone(); 
     }
 }
-void Keeper::Add(Base* obj) {
+
+void Keeper::Add(Base* obj) { //добавление нового
     Base** new_items = new Base * [count + 1];
     for (int i = 0; i < count; ++i)
         new_items[i] = items[i];
@@ -52,7 +53,7 @@ void Keeper::Add(Base* obj) {
     count++;
 }
 
-void Keeper::Remove(int index) {
+void Keeper::Remove(int index) { //удалитьь
     if (index < 0 || index >= count) {
         cout << "Неверный индекс\n";
         return;
@@ -92,7 +93,7 @@ void Keeper::ShowAll() const {
         return;
     }
     for (int i = 0; i < count; ++i) {
-        cout << "\n--- Объект " << i + 1 << " ---\n";
+        cout << "\n Корабль " << i + 1 << "\n";
         items[i]->Show();
     }
 }

@@ -23,7 +23,6 @@ public:
 
    
     Submarine& operator=(const Submarine& other);
-    bool operator==(const Submarine& other) const;
 
     
     double getLength() const;

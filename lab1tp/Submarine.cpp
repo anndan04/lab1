@@ -7,23 +7,17 @@ using namespace std;
 Submarine::Submarine()
     : length(0), width(0), crew(0),
     underwater_time(0), max_underwater_speed(0) {
-#ifdef _MSC_VER
+
     strcpy_s(weapon, sizeof(weapon), "Нет");
-#else
-    strncpy(weapon, "Нет", sizeof(weapon) - 1);
-    weapon[sizeof(weapon) - 1] = '\0';
-#endif
+
     cout << "[Submarine] Вызван конструктор без параметров\n";
 }
 
 Submarine::Submarine(double l, double w, int c, double ut, double mus, const char* wp)
     : length(l), width(w), crew(c), underwater_time(ut), max_underwater_speed(mus) {
-#ifdef _MSC_VER
+
     strcpy_s(weapon, sizeof(weapon), wp);
-#else
-    strncpy(weapon, wp, sizeof(weapon) - 1);
-    weapon[sizeof(weapon) - 1] = '\0';
-#endif
+
     cout << "[Submarine] Вызван конструктор с параметрами\n";
 }
 
@@ -31,12 +25,9 @@ Submarine::Submarine(const Submarine& other)
     : length(other.length), width(other.width), crew(other.crew),
     underwater_time(other.underwater_time),
     max_underwater_speed(other.max_underwater_speed) {
-#ifdef _MSC_VER
+
     strcpy_s(weapon, sizeof(weapon), other.weapon);
-#else
-    strncpy(weapon, other.weapon, sizeof(weapon) - 1);
-    weapon[sizeof(weapon) - 1] = '\0';
-#endif
+
     cout << "[Submarine] Вызван конструктор копирования\n";
 }
 
@@ -52,25 +43,14 @@ Submarine& Submarine::operator=(const Submarine& other) {
         crew = other.crew;
         underwater_time = other.underwater_time;
         max_underwater_speed = other.max_underwater_speed;
-#ifdef _MSC_VER
+
         strcpy_s(weapon, sizeof(weapon), other.weapon);
-#else
-        strncpy(weapon, other.weapon, sizeof(weapon) - 1);
-        weapon[sizeof(weapon) - 1] = '\0';
-#endif
+
         cout << "[Submarine] Оператор присваивания вызван\n";
     }
     return *this;
 }
 
-bool Submarine::operator==(const Submarine& other) const {
-    return (length == other.length &&
-        width == other.width &&
-        crew == other.crew &&
-        underwater_time == other.underwater_time &&
-        max_underwater_speed == other.max_underwater_speed &&
-        strcmp(weapon, other.weapon) == 0);
-}
 
 
 double Submarine::getLength() const { return length; }
@@ -96,75 +76,87 @@ void Submarine::setWeapon(const char* w) {
 
 
 void Submarine::Input() {
+    double l, w, ut, mus;
+    int c;
+    char wp[sizeof(weapon)];
+
     while (true) {
         cout << "Введите длину (м): ";
-        if (cin >> length && length > 0) break;
+        if (cin >> l && l > 0) break;
         else {
             cout << "Ошибка: длина должна быть числом\n";
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
         }
     }
+    setLength(l);
 
     while (true) {
         cout << "Введите ширину (м): ";
-        if (cin >> width && width > 0) break;
+        if (cin >> w && w > 0) break;
         else {
             cout << "Ошибка: ширина должна быть числом\n";
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
         }
     }
+    setWidth(w);
 
     while (true) {
         cout << "Введите численность экипажа: ";
-        if (cin >> crew && crew > 0) break;
+        if (cin >> c && c > 0) break;
         else {
             cout << "Ошибка: экипаж должен быть целым числом\n";
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
         }
     }
+    setCrew(c);
 
     while (true) {
         cout << "Введите время под водой (часы): ";
-        if (cin >> underwater_time && underwater_time > 0) break;
+        if (cin >> ut && ut > 0) break;
         else {
             cout << "Ошибка: время под водой должно быть числом\n";
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
         }
     }
+    setUnderwaterTime(ut);
 
     while (true) {
         cout << "Введите максимальную подводную скорость (узлы): ";
-        if (cin >> max_underwater_speed && max_underwater_speed > 0) break;
+        if (cin >> mus && mus > 0) break;
         else {
             cout << "Ошибка: скорость должна быть числом\n";
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
         }
     }
+    setMaxUnderwaterSpeed(mus);
 
-    cin.ignore(numeric_limits<streamsize>::max(), '\n'); 
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
     cout << "Введите вооружение: ";
-    cin.getline(weapon, sizeof(weapon));
+    cin.getline(wp, sizeof(wp));
 
-   
-    while (strlen(weapon) == 0) {
+    while (strlen(wp) == 0) {
         cout << "Ошибка: вооружение не может быть пустым ";
-        cin.getline(weapon, sizeof(weapon));
+        cin.getline(wp, sizeof(wp));
     }
+    setWeapon(wp);
 }
-
+Base* Submarine::Clone() const {
+    cout << "[Submarine] Вызван метод Clone().\n";
+    return new Submarine(*this);
+}
 void Submarine::Show() const {
-    cout << "\n=== Подводная лодка ===\n";
-    cout << "Длина: " << length << " м\n";
-    cout << "Ширина: " << width << " м\n";
-    cout << "Экипаж: " << crew << " чел\n";
-    cout << "Время под водой: " << underwater_time << " ч\n";
-    cout << "Макс. скорость: " << max_underwater_speed << " узлов\n";
-    cout << "Вооружение: " << weapon << "\n";
+    cout << "\n----Подводная лодка ----\n";
+    cout << "Длина: " << getLength() << " м\n";
+    cout << "Ширина: " << getWidth() << " м\n";
+    cout << "Экипаж: " << getCrew() << " чел\n";
+    cout << "Время под водой: " << getUnderwaterTime() << " ч\n";
+    cout << "Макс. скорость: " << getMaxUnderwaterSpeed() << " узлов\n";
+    cout << "Вооружение: " << getWeapon() << "\n";
 }
 
 void Submarine::Edit() {
@@ -172,27 +164,31 @@ void Submarine::Edit() {
     Input();
 }
 
-Base* Submarine::Clone() const {
-    cout << "[Submarine] Вызван метод Clone().\n";
-    return new Submarine(*this);
-}
 void Submarine::Save(ofstream& out) const {
-    out << "Submarine\n"; 
-    out << length << '\n'
-        << width << '\n'
-        << crew << '\n'
-        << underwater_time << '\n'
-        << max_underwater_speed << '\n'
-        << weapon << '\n';
+    out << "Submarine\n";
+    out << getLength() << '\n'
+        << getWidth() << '\n'
+        << getCrew() << '\n'
+        << getUnderwaterTime() << '\n'
+        << getMaxUnderwaterSpeed() << '\n'
+        << getWeapon() << '\n';
 }
 
 void Submarine::Load(ifstream& in) {
-    in >> length;
-    in >> width;
-    in >> crew;
-    in >> underwater_time;
-    in >> max_underwater_speed;
-    in.ignore(); 
-    in.getline(weapon, sizeof(weapon));
+    double l, w, ut, mus;
+    int c;
+    char wp[sizeof(weapon)];
+
+    in >> l >> w >> c >> ut >> mus;
+    in.ignore();
+    in.getline(wp, sizeof(wp));
+
+    setLength(l);
+    setWidth(w);
+    setCrew(c);
+    setUnderwaterTime(ut);
+    setMaxUnderwaterSpeed(mus);
+    setWeapon(wp);
 }
+
 

@@ -4,6 +4,7 @@
 #include "Sailboat.h"
 #include "Boat.h"
 #include <locale>
+#include "windows.h"
 using namespace std;
 
 void menu() {
@@ -11,7 +12,7 @@ void menu() {
    const char* filename = "ships.txt";
 
     while (true) {
-        cout 
+        cout
             << "1. Добавить объект\n"
             << "2. Удалить объект\n"
             << "3. Показать все объекты\n"
@@ -68,7 +69,9 @@ void menu() {
 }
 
 int main() {
-    setlocale(LC_ALL, "Russian");  
+    SetConsoleCP(1251);
+    SetConsoleOutputCP(1251);
+   // setlocale(LC_ALL, "Russian");  
     menu();
     return 0;
 }

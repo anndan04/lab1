@@ -27,6 +27,18 @@ public:
 
     void Save(std::ofstream& out) const override;
     void Load(std::ifstream& in) override;
+    const char* getPurpose() const;
+    const char* getHullMaterial() const;
+    const char* getPerformance() const;
+    double getSpeed() const;
+    int getCapacity() const;
+    void setPurpose(const char* p);
+    void setHullMaterial(const char* m);
+    void setPerformance(const char* perf);
+    void setSpeed(double s);
+    void setCapacity(int cap);
+
+
 };
 
 #endif
